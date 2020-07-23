@@ -65,6 +65,7 @@ async function maFonction() {
   Professor.belongsTo(User);
   Parent.belongsTo(User);
   Student.belongsTo(School);
+  
   School.hasMany(Student);
 
   Course.belongsToMany(Student, { through: "StudentCourse" });
@@ -185,6 +186,8 @@ async function maFonction() {
     1,
     "azerty2000");
 
+    apiDeleteStudent(1);
+
     const newStudent = await apiGetStudentID(idStudent);
     console.log(newStudent);
 
@@ -277,6 +280,12 @@ async function apiPostStudent(
  return student.id;
 }
 
-async function apiDeleteStudent() {}
+async function apiDeleteStudent(studentId) {
+
+  const deleteStudent = await apiGetStudentID(studentId);
+  console.log("deleteStudent-------::>", deleteStudent);
+  
+  await deleteStudent.firstname.destroy();
+}
 
 apiGetStudentID();
