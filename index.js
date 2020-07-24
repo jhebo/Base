@@ -282,12 +282,7 @@ async function apiPostStudent(
 
 async function apiDeleteStudent(studentId) {
 
-  // const deleteStudent = await apiGetStudentID(studentId);
-  // console.log("deleteStudent-------::>", deleteStudent);
-  
-  // await deleteStudent.firstname.destroy();
-
-  const dbStudent = await Student.findOne({
+    const dbStudent = await Student.findOne({
     where: {
       id: studentId,
     },
