@@ -282,32 +282,22 @@ async function apiPostStudent(
 
 async function apiDeleteStudent(studentId) {
 
-    const dbStudent = await Student.findOne({
+  const dbStudent = await Student.findOne({
     where: {
       id: studentId,
-    },
-    include: ["user", "courses", "school"],
+    }
   });
 
-  // console.log("dbStudent-------:::>",dbStudent)
+  await Student.destroy({
+    where: {
+        id: dbStudent.id
+    }}
+  );
 
-  const deleteStudent = {
-    idStudent: dbStudent.id,
-    idUser: dbStudent.userId  
-}
-
-await Student.destroy({
-  where: {
-      id:deleteStudent.idStudent
-  }});
-await User.destroy(
+  await User.destroy(
   {
     where: {
-        id:deleteStudent.idUser
+        id: dbStudent.userId
     }}
-);
-
-
+  );
 }
-
-apiGetStudentID();
