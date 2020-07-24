@@ -282,10 +282,37 @@ async function apiPostStudent(
 
 async function apiDeleteStudent(studentId) {
 
-  const deleteStudent = await apiGetStudentID(studentId);
-  console.log("deleteStudent-------::>", deleteStudent);
+  // const deleteStudent = await apiGetStudentID(studentId);
+  // console.log("deleteStudent-------::>", deleteStudent);
   
-  await deleteStudent.firstname.destroy();
+  // await deleteStudent.firstname.destroy();
+
+  const dbStudent = await Student.findOne({
+    where: {
+      id: studentId,
+    },
+    include: ["user", "courses", "school"],
+  });
+
+  // console.log("dbStudent-------:::>",dbStudent)
+
+  const deleteStudent = {
+    idStudent: dbStudent.id,
+    idUser: dbStudent.userId  
+}
+
+await Student.destroy({
+  where: {
+      id:deleteStudent.idStudent
+  }});
+await User.destroy(
+  {
+    where: {
+        id:deleteStudent.idUser
+    }}
+);
+
+
 }
 
 apiGetStudentID();
